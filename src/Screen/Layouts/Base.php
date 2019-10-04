@@ -7,6 +7,7 @@ namespace Orchid\Screen\Layouts;
 use JsonSerializable;
 use Illuminate\Support\Arr;
 use Orchid\Screen\Repository;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class Base.
@@ -63,6 +64,16 @@ abstract class Base implements JsonSerializable
      * @return mixed
      */
     abstract public function build(Repository $repository);
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * @param string $method
@@ -149,7 +160,7 @@ abstract class Base implements JsonSerializable
         $build = [];
 
         foreach ($layouts as $layout) {
-            $layout = ! is_object($layout) ? new $layout() : $layout;
+            $layout = ! is_object($layout) ? $this->createInstance($layout) : $layout;
 
             if (! $this->checkPermission($layout, $repository)) {
                 continue;
@@ -159,6 +170,11 @@ abstract class Base implements JsonSerializable
         }
 
         return $build;
+    }
+
+    private function createInstance($className)
+    {
+        return $this->container->get($className);
     }
 
     /**
