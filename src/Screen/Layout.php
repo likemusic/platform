@@ -29,16 +29,6 @@ class Layout
     public $layouts = [];
 
     /**
-     * @var ContainerInterface\
-     */
-    private $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * @param string                                        $view
      * @param \Illuminate\Contracts\Support\Arrayable|array $data
      *
@@ -103,13 +93,14 @@ class Layout
     }
 
     /**
+     * @param ContainerInterface $container
      * @param array $layouts
      *
      * @return Blank
      */
-    public static function blank(array $layouts): Blank
+    public static function blank(ContainerInterface $container, array $layouts): Blank
     {
-        return new class($layouts) extends Blank {
+        return new class($container, $layouts) extends Blank {
         };
     }
 

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\Routing\UrlRoutable;
 use Orchid\Platform\Http\Controllers\Controller;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class Screen.
@@ -62,12 +63,19 @@ abstract class Screen extends Controller
     protected $arguments = [];
 
     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
      * Screen constructor.
      *
+     * @param ContainerInterface $container
      * @param Request|null $request
      */
-    public function __construct(Request $request = null)
+    public function __construct(ContainerInterface $container, Request $request = null)
     {
+        $this->container = $container;
         $this->request = $request ?? request();
     }
 
@@ -85,6 +93,7 @@ abstract class Screen extends Controller
      */
     abstract public function layout(): array;
 
+
     /**
      *@throws Throwable
      *
@@ -92,9 +101,10 @@ abstract class Screen extends Controller
      */
     public function build()
     {
-        $layout = Layout::blank([
-            $this->layout(),
-        ]);
+        $layout = Layout::blank(
+            $this->container,
+            [$this->layout()]
+        );
 
         return $layout->build($this->source);
     }
