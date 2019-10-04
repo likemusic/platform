@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Orchid\Screen\Layouts;
 
 use Orchid\Screen\Repository;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class Tabs.
@@ -19,13 +20,16 @@ abstract class View extends Base
     /**
      * View constructor.
      *
-     * @param string                                        $template
+     * @param ContainerInterface $container
+     * @param string $template
      * @param \Illuminate\Contracts\Support\Arrayable|array $data
      */
-    public function __construct(string $template, $data = [])
+    public function __construct(ContainerInterface $container, string $template, $data = [])
     {
         $this->template = $template;
         $this->data = $data;
+
+        parent::__construct($container);
     }
 
     /**

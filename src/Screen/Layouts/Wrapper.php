@@ -6,6 +6,7 @@ namespace Orchid\Screen\Layouts;
 
 use Illuminate\Support\Arr;
 use Orchid\Screen\Repository;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class Wrapper.
@@ -15,13 +16,16 @@ abstract class Wrapper extends Base
     /**
      * Wrapper constructor.
      *
+     * @param ContainerInterface $container
      * @param string $template
      * @param Base[] $layouts
      */
-    public function __construct(string $template, array $layouts = [])
+    public function __construct(ContainerInterface $container, string $template, array $layouts = [])
     {
         $this->template = $template;
         $this->layouts = $layouts;
+
+        parent::__construct($container);
     }
 
     /**

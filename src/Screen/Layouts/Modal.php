@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Orchid\Screen\Layouts;
 
 use Orchid\Screen\Repository;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class Modal.
@@ -25,10 +26,11 @@ class Modal extends Base
     /**
      * Modal constructor.
      *
+     * @param ContainerInterface $container
      * @param string $key
-     * @param array  $layouts
+     * @param array $layouts
      */
-    public function __construct(string $key, array $layouts = [])
+    public function __construct(ContainerInterface $container, string $key, array $layouts = [])
     {
         $this->variables = [
             'apply'      => __('Apply'),
@@ -41,6 +43,8 @@ class Modal extends Base
         ];
 
         $this->layouts = $layouts;
+
+        parent::__construct($container);
     }
 
     /**

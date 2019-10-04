@@ -7,6 +7,7 @@ namespace Orchid\Screen\Layouts;
 use Orchid\Filters\Filter;
 use Orchid\Screen\Repository;
 use Illuminate\Contracts\View\Factory;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class Selection.
@@ -31,11 +32,14 @@ abstract class Selection extends Base
     /**
      * Base constructor.
      *
+     * @param ContainerInterface $container
      * @param Base[] $layouts
      */
-    public function __construct(array $layouts = [])
+    public function __construct(ContainerInterface $container,array $layouts = [])
     {
         $this->layouts = $layouts;
+
+        parent::__construct($container);
     }
 
     /**

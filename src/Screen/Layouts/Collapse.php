@@ -8,6 +8,7 @@ use Throwable;
 use Orchid\Screen\Builder;
 use Orchid\Screen\Repository;
 use Illuminate\Contracts\View\Factory;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class Collapse.
@@ -32,11 +33,13 @@ abstract class Collapse extends Base
     /**
      * Base constructor.
      *
+     * @param ContainerInterface $container
      * @param Base[] $layouts
      */
-    public function __construct(array $layouts = [])
+    public function __construct(ContainerInterface $container,array $layouts = [])
     {
         $this->layouts = $layouts;
+        parent::__construct($container);
     }
 
     /**
