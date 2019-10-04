@@ -14,6 +14,7 @@ use Orchid\Screen\Layouts\Wrapper;
 use Orchid\Screen\Layouts\Collapse;
 use Orchid\Screen\Layouts\Accordion;
 use Illuminate\Support\Traits\Macroable;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class Layout.
@@ -26,6 +27,16 @@ class Layout
      * @var array
      */
     public $layouts = [];
+
+    /**
+     * @var ContainerInterface\
+     */
+    private $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * @param string                                        $view
